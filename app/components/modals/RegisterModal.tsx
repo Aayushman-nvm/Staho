@@ -3,12 +3,14 @@
 import axios from "axios";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import useRegisterModal from "../../hooks/useRegisterModal";
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import Modal from "./Modal";
 import Heading from "../ui/Heading";
 import Input from "../ui/Input";
 import toast from "react-hot-toast";
 import Button from "../ui/Button";
+import { FcGoogle } from "react-icons/fc";
+import { AiFillGithub } from "react-icons/ai";
 
 function RegisterModal() {
   const registerModal = useRegisterModal();
@@ -32,10 +34,11 @@ function RegisterModal() {
     axios
       .post("/api/register", data)
       .then(() => {
+        toast.success("Account created successfully!");
         registerModal.onClose();
       })
       .catch((error) => {
-        toast.error("Something went wrong!");
+        toast.error(error?.response?.data?.error || "Something went wrong!");
       })
       .finally(() => {
         setIsLoading(false);
@@ -43,12 +46,12 @@ function RegisterModal() {
   };
 
   const bodyContent = (
-    <div>
-      body content
-      <Heading title="Welcome to Staho" subTitle="create an account" />
+    <div className="flex flex-col gap-4">
+      <Heading title="Welcome to Staho" subTitle="Create an account" />
       <Input
         id="email"
         label="Email"
+        type="email"
         disabled={isLoading}
         register={register}
         error={errors}
@@ -75,25 +78,38 @@ function RegisterModal() {
   );
 
   const footerContent = (
-    <div>
+    <div className="flex flex-col gap-4 mt-3">
+      <hr />
       <Button
         outline
         label="Continue with Google"
-        icon={""}
-        onClick={() => {}}
+        icon={FcGoogle}
+        onClick={() => {
+          // Add Google OAuth logic
+        }}
       />
       <Button
         outline
         label="Continue with Github"
-        icon={""}
-        onClick={() => {}}
+        icon={AiFillGithub}
+        onClick={() => {
+          // Add Github OAuth logic
+        }}
       />
-      <div>
-        Already have an account?
-        <div onClick={registerModal.onClose}>Log in</div>
+      <div className="text-neutral-500 text-center mt-4 font-light">
+        <div className="flex flex-row items-center justify-center gap-2">
+          <span>Already have an account?</span>
+          <button
+            onClick={registerModal.onClose}
+            className="text-neutral-800 font-semibold hover:underline cursor-pointer"
+          >
+            Log in
+          </button>
+        </div>
       </div>
     </div>
   );
+
   return (
     <Modal
       disabled={isLoading}
