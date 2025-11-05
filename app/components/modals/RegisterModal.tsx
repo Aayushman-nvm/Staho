@@ -11,9 +11,12 @@ import toast from "react-hot-toast";
 import Button from "../ui/Button";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";
+import useLoginModal from "@/app/hooks/useLoginModal";
+import { signIn } from "next-auth/react";
 
 function RegisterModal() {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -84,23 +87,22 @@ function RegisterModal() {
         outline
         label="Continue with Google"
         icon={FcGoogle}
-        onClick={() => {
-          // Add Google OAuth logic
-        }}
+        onClick={() => signIn("google")}
       />
       <Button
         outline
         label="Continue with Github"
         icon={AiFillGithub}
-        onClick={() => {
-          // Add Github OAuth logic
-        }}
+        onClick={() => signIn("github")}
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="flex flex-row items-center justify-center gap-2">
           <span>Already have an account?</span>
           <button
-            onClick={registerModal.onClose}
+            onClick={() => {
+              registerModal.onClose();
+              loginModal.onOpen();
+            }}
             className="text-neutral-800 font-semibold hover:underline cursor-pointer"
           >
             Log in
