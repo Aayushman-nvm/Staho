@@ -14,7 +14,7 @@ function Avatar({ src, alt = "User avatar", size = "md" }: AvatarProps) {
     md: "h-10 w-10",
     lg: "h-12 w-12",
   };
-
+  
   return (
     <div className="relative">
       {src ? (
