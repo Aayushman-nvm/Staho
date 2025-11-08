@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 
 import Modal from "./Modal";
 import Heading from "../ui/Heading";
-import Input from "../ui/Input";
+import Input from "../input/Input";
 import toast from "react-hot-toast";
 import Button from "../ui/Button";
 
