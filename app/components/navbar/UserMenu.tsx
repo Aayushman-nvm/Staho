@@ -10,6 +10,7 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 import { signOut } from "next-auth/react";
 
 import { SafeUser } from "@/app/types";
+import useRentModal from "@/app/hooks/useRentModal";
 
 interface UserMenuProps {
   currentUser?: SafeUser | null;
@@ -20,6 +21,7 @@ function UserMenu({ currentUser }: UserMenuProps) {
   const loginModal = useLoginModal();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const rentModal=useRentModal();
 
   const toggleOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
@@ -68,6 +70,13 @@ function UserMenu({ currentUser }: UserMenuProps) {
     setIsOpen(false);
     registerModal.onOpen();
   };
+
+  const onRent = useCallback(()=>{
+    if(!currentUser){
+      return loginModal.onOpen();
+    }
+    rentModal.onOpen();
+  },[currentUser, loginModal, rentModal]);
 
   return (
     <div className="relative" ref={menuRef}>
@@ -129,8 +138,8 @@ function UserMenu({ currentUser }: UserMenuProps) {
                   icon={<FiLogIn />}
                 />
                 <MenuItem
-                  onClick={()=>{}}
-                  label="Staho my home"
+                  onClick={onRent}
+                  label="Staho your home"
                   icon={<FiLogIn />}
                 />
                 <hr/>
