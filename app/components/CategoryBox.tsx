@@ -44,7 +44,6 @@ function CategoryBox({ label, icon: Icon, selected }: CategoryBoxProps) {
   }, [label, params, router]);
 
   return (
-    // BUG FIX #5 & #6: Added styling and accessibility
     <button
       onClick={handleClick}
       className={`
