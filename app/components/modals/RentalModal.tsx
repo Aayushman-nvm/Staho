@@ -103,6 +103,7 @@ function RentalModal() {
           reset();
           setStep(STEPS.CATEGORY);
           rentModal.onClose();
+          console.log("Data: ",data);
         })
         .catch(() => {
           toast.error("Something went wrong!");
