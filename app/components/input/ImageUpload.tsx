@@ -24,7 +24,7 @@ function ImageUpload({ onChange, value }: ImageUploadProps) {
 
   return (
     <CldUploadWidget
-      onUpload={handleUpload}
+      onSuccess={handleUpload}
       uploadPreset="staho_app"
       options={{
         maxFiles: 1,
