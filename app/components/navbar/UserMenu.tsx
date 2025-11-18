@@ -11,6 +11,7 @@ import { signOut } from "next-auth/react";
 
 import { SafeUser } from "@/app/types";
 import useRentModal from "@/app/hooks/useRentModal";
+import { useRouter } from "next/navigation";
 
 interface UserMenuProps {
   currentUser?: SafeUser | null;
@@ -21,7 +22,8 @@ function UserMenu({ currentUser }: UserMenuProps) {
   const loginModal = useLoginModal();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const rentModal=useRentModal();
+  const rentModal = useRentModal();
+  const router = useRouter();
 
   const toggleOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
@@ -71,12 +73,12 @@ function UserMenu({ currentUser }: UserMenuProps) {
     registerModal.onOpen();
   };
 
-  const onRent = useCallback(()=>{
-    if(!currentUser){
+  const onRent = useCallback(() => {
+    if (!currentUser) {
       return loginModal.onOpen();
     }
     rentModal.onOpen();
-  },[currentUser, loginModal, rentModal]);
+  }, [currentUser, loginModal, rentModal]);
 
   return (
     <div className="relative" ref={menuRef}>
@@ -97,7 +99,7 @@ function UserMenu({ currentUser }: UserMenuProps) {
       >
         <AiOutlineMenu className="text-gray-700" size={18} />
         <div className="hidden md:block">
-          <Avatar src={currentUser?.image}/>
+          <Avatar src={currentUser?.image} />
         </div>
       </button>
 
@@ -118,22 +120,22 @@ function UserMenu({ currentUser }: UserMenuProps) {
             {currentUser ? (
               <>
                 <MenuItem
-                  onClick={()=>{}}
+                  onClick={() => router.push("/trips")}
                   label="My Trips"
                   icon={<FiLogIn />}
                 />
                 <MenuItem
-                  onClick={()=>{}}
+                  onClick={() => {}}
                   label="My Favorites"
                   icon={<FiLogIn />}
                 />
                 <MenuItem
-                  onClick={()=>{}}
+                  onClick={() => {}}
                   label="My Reservations"
                   icon={<FiLogIn />}
                 />
                 <MenuItem
-                  onClick={()=>{}}
+                  onClick={() => {}}
                   label="My Properties"
                   icon={<FiLogIn />}
                 />
@@ -142,7 +144,7 @@ function UserMenu({ currentUser }: UserMenuProps) {
                   label="Staho your home"
                   icon={<FiLogIn />}
                 />
-                <hr/>
+                <hr />
                 <MenuItem
                   onClick={signOut}
                   label="Log Out"
