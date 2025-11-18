@@ -67,7 +67,7 @@ function ListingClient({
       .then(() => {
         toast.success("Listing Reserved!");
         setDateRange(initialDateRange);
-        router.refresh();
+        router.push("/trips");
       })
       .catch(() => {
         toast.error("Something went wrong!");
