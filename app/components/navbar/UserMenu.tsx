@@ -125,17 +125,17 @@ function UserMenu({ currentUser }: UserMenuProps) {
                   icon={<FiLogIn />}
                 />
                 <MenuItem
-                  onClick={() => {}}
+                  onClick={() => router.push("/favourites")}
                   label="My Favorites"
                   icon={<FiLogIn />}
                 />
                 <MenuItem
-                  onClick={() => {}}
+                  onClick={() => router.push("/reservations")}
                   label="My Reservations"
                   icon={<FiLogIn />}
                 />
                 <MenuItem
-                  onClick={() => {}}
+                  onClick={() => router.push("/properties")}
                   label="My Properties"
                   icon={<FiLogIn />}
                 />
