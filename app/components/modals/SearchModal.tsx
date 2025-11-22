@@ -7,7 +7,7 @@ import { useCallback, useMemo, useState } from "react";
 import { Range } from "react-date-range";
 import dynamic from "next/dynamic";
 import CountrySelect, { CountrySelectValue } from "../input/CountrySelect";
-import qs from "query-string";
+import qs, { StringifiableRecord } from "query-string";
 import { formatISO } from "date-fns";
 import Heading from "../ui/Heading";
 import Calendar from "../input/Calendar";
@@ -56,12 +56,12 @@ function SearchModal() {
       return onNext();
     }
 
-    let currentQuery = {};
+    let currentQuery: string | StringifiableRecord = {};
     if (params) {
       currentQuery = qs.parse(params.toString());
     }
 
-    const updatedQuery: any = {
+    const updatedQuery: StringifiableRecord = {
       ...currentQuery,
       locationValue: location?.value,
       guestCount,
@@ -115,17 +115,13 @@ function SearchModal() {
     return "Back";
   }, [step]);
 
-  // FIX: Added styling classes
   let bodyContent = (
     <div className="flex flex-col gap-8">
       <Heading
         title="Where do you wanna go?"
         subTitle="Find the perfect location!"
       />
-      <CountrySelect
-        value={location}
-        onChange={(value) => setLocation(value)}
-      />
+      <CountrySelect value={location} onChange={(value) => setLocation(value)} />
       <hr />
       <Map center={location?.latlng} />
     </div>
@@ -134,14 +130,8 @@ function SearchModal() {
   if (step === STEPS.DATE) {
     bodyContent = (
       <div className="flex flex-col gap-8">
-        <Heading
-          title="When do you plan to go?"
-          subTitle="Make sure everyone is free!"
-        />
-        <Calendar
-          value={dateRange}
-          onChange={(value) => setDateRange(value.selection)}
-        />
+        <Heading title="When do you plan to go?" subTitle="Make sure everyone is free!" />
+        <Calendar value={dateRange} onChange={(value) => setDateRange(value.selection)} />
       </div>
     );
   }
@@ -150,21 +140,18 @@ function SearchModal() {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading title="More Information" subTitle="Find your perfect place" />
-
         <Counter
           title="Guests"
           subtitle="How many guests are coming?"
           value={guestCount}
           onChange={(value) => setGuestCount(value)}
         />
-
         <Counter
           title="Rooms"
           subtitle="How many rooms do you need?"
           value={roomCount}
           onChange={(value) => setRoomCount(value)}
         />
-
         <Counter
           title="Bathrooms"
           subtitle="How many bathrooms do you need?"

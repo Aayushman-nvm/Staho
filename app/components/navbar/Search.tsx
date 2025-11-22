@@ -28,13 +28,11 @@ function Search() {
     if (startDate && endDate) {
       const start = new Date(startDate as string);
       const end = new Date(endDate as string);
-      let diff = differenceInDays(end, start);
+      const diff = differenceInDays(end, start);
 
-      if (diff === 0) {
-        diff - 1;
-      }
+      const adjustedDiff = diff === 0 ? 1 : diff;
 
-      return `${diff} Days`;
+      return `${adjustedDiff} Days`;
     }
 
     return "Any week";
@@ -55,14 +53,10 @@ function Search() {
       {/* Desktop Search */}
       <div className="hidden md:flex items-center border border-gray-300 rounded-full shadow-sm hover:shadow-md transition-shadow duration-200 py-2 px-4 gap-2">
         <div className="flex-1 px-4 border-r border-gray-300">
-          <div className="text-sm font-semibold text-gray-600">
-            {locationLabel}
-          </div>
+          <div className="text-sm font-semibold text-gray-600">{locationLabel}</div>
         </div>
         <div className="flex-1 px-4 border-r border-gray-300">
-          <div className="text-sm font-semibold text-gray-600">
-            {durationLabel}
-          </div>
+          <div className="text-sm font-semibold text-gray-600">{durationLabel}</div>
         </div>
         <div className="flex-1 px-4">
           <div className="text-sm text-gray-400">{guestLabel}</div>

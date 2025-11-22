@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-
 import prisma from "@/app/libs/prismadb";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 
@@ -20,12 +19,22 @@ export async function POST(request: Request) {
     title,
     description,
   } = body;
-  
-  Object.keys(body).forEach((value: any) => {
-    if (!body[value]) {
-      NextResponse.error();
+
+  for (const key of [
+    "category",
+    "location",
+    "guestCount",
+    "roomCount",
+    "bathroomCount",
+    "imageSrc",
+    "price",
+    "title",
+    "description",
+  ]) {
+    if (!body[key]) {
+      return NextResponse.error();
     }
-  });
+  }
 
   const listing = await prisma.listing.create({
     data: {

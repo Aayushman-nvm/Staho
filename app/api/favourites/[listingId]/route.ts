@@ -23,7 +23,7 @@ export async function POST(
       return new NextResponse("Invalid listing ID", { status: 400 });
     }
 
-    let favouriteIds = [...(currentUser.favouriteIds || [])];
+    const favouriteIds = [...(currentUser.favouriteIds || [])];
 
     if (favouriteIds.includes(listingId)) {
       return NextResponse.json({ message: "Already favorited" });
@@ -32,12 +32,8 @@ export async function POST(
     favouriteIds.push(listingId);
 
     const user = await prisma.user.update({
-      where: {
-        id: currentUser.id,
-      },
-      data: {
-        favouriteIds,
-      },
+      where: { id: currentUser.id },
+      data: { favouriteIds },
     });
 
     return NextResponse.json(user);
@@ -64,23 +60,17 @@ export async function DELETE(
       return new NextResponse("Invalid listing ID", { status: 400 });
     }
 
-    let favouriteIds = [...(currentUser.favouriteIds || [])];
-
-    // BUG FIX #2: Use strict equality
-    favouriteIds = favouriteIds.filter((id) => id !== listingId);
+    const favouriteIds = (currentUser.favouriteIds || []).filter(
+      (id) => id !== listingId
+    );
 
     const user = await prisma.user.update({
-      where: {
-        id: currentUser.id,
-      },
-      data: {
-        favouriteIds,
-      },
+      where: { id: currentUser.id },
+      data: { favouriteIds },
     });
 
     return NextResponse.json(user);
   } catch (error) {
-    // BUG FIX #5: Proper error handling
     console.error("[FAVOURITES_DELETE]", error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }

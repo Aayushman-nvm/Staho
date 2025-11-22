@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 import { IconType } from "react-icons";
-import qs from "query-string";
+import qs, { StringifiableRecord } from "query-string";
 
 interface CategoryBoxProps {
   label: string;
@@ -22,7 +22,7 @@ function CategoryBox({ label, icon: Icon, selected }: CategoryBoxProps) {
       currentQuery = qs.parse(params.toString());
     }
 
-    const updatedQuery: any = {
+    const updatedQuery: StringifiableRecord = {
       ...currentQuery,
       category: label,
     };
@@ -62,7 +62,10 @@ function CategoryBox({ label, icon: Icon, selected }: CategoryBoxProps) {
       aria-selected={selected}
       aria-label={`Filter by ${label}`}
     >
-      <Icon size={26} className="group-hover:scale-110 transition-transform duration-200" />
+      <Icon
+        size={26}
+        className="group-hover:scale-110 transition-transform duration-200"
+      />
       <span className="text-xs sm:text-sm font-medium whitespace-nowrap">
         {label}
       </span>
