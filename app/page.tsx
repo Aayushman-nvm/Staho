@@ -6,11 +6,12 @@ import EmptyState from "./components/EmptyState";
 import ListingCard from "./components/listings/ListingCard";
 
 interface HomeProps {
-  searchParams: IListingsParams;
+  searchParams: Promise<IListingsParams>;
 }
 
 export default async function Home({ searchParams }: HomeProps) {
-  const listings = await getListings(searchParams);
+  const resolvedSearchParams = await searchParams;
+  const listings = await getListings(resolvedSearchParams);
   const currentUser = await getCurrentUser();
 
   const isEmpty = listings.length === 0;
@@ -26,7 +27,6 @@ export default async function Home({ searchParams }: HomeProps) {
   return (
     <ClientOnly>
       <Container>
-        {/* BUG FIX #1: Added responsive grid layout */}
         <div
           className="
             pt-24
