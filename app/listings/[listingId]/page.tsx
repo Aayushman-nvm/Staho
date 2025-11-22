@@ -9,10 +9,12 @@ interface IParams {
   listingId?: string;
 }
 
-async function ListingPage({ params }: { params: IParams }) {
-  const listing = await getListingById(params);
-  const reservations = await getReservations(params);
+async function ListingPage({ params }: { params: Promise<IParams> }) {
+  const resolvedParams = await params;
+  const listing = await getListingById(resolvedParams);
+  const reservations = await getReservations(resolvedParams);
   const currentUser = await getCurrentUser();
+
   if (!listing) {
     return (
       <ClientOnly>
@@ -20,9 +22,14 @@ async function ListingPage({ params }: { params: IParams }) {
       </ClientOnly>
     );
   }
+
   return (
     <ClientOnly>
-      <ListingClient listing={listing} currentUser={currentUser} reservations={reservations}/>
+      <ListingClient
+        listing={listing}
+        currentUser={currentUser}
+        reservations={reservations}
+      />
     </ClientOnly>
   );
 }
