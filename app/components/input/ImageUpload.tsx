@@ -16,13 +16,26 @@ interface ImageUploadProps {
 
 function ImageUpload({ onChange, value }: ImageUploadProps) {
   const handleUpload = useCallback(
-    (result: any) => {
+    (result: unknown) => {
       let secureUrl = "";
 
-      if (typeof result.info === "string") {
-        secureUrl = result.info;
-      } else if (result.info && typeof result.info.secure_url === "string") {
-        secureUrl = result.info.secure_url;
+      if (
+        typeof result === "object" &&
+        result !== null &&
+        "info" in result
+      ) {
+        const info = (result as { info?: unknown }).info;
+
+        if (typeof info === "string") {
+          secureUrl = info;
+        } else if (
+          typeof info === "object" &&
+          info !== null &&
+          "secure_url" in info &&
+          typeof (info as { secure_url?: unknown }).secure_url === "string"
+        ) {
+          secureUrl = (info as { secure_url: string }).secure_url;
+        }
       }
 
       if (secureUrl) {
